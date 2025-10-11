@@ -1,0 +1,244 @@
+<style>
+/* Fonts (if not already included) */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Inter:wght@300;400;600&display=swap');
+
+.testimonials-section { padding: 3rem 1rem; }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-title { font-family: "Playfair Display", serif; font-size: 1.6rem; margin: 0 0 1.25rem 0; }
+
+/* Carousel layout */
+.testimonials-carousel { display:flex; align-items:center; gap:1rem; position:relative; }
+.carousel-btn { background:transparent; border:1px solid rgba(0,0,0,0.08); width:44px; height:44px; border-radius:6px; font-size:1.25rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.carousel-btn:disabled { opacity:0.35; cursor:default; }
+
+/* Viewport: animate height smoothly; overflow hidden */
+.viewport { overflow:hidden; flex:1 1 auto; outline:none; transition: height 300ms ease; }
+
+/* Track: horizontal strip we translate left/right */
+.track { display:flex; gap:1.5rem; transition: transform 320ms ease; will-change: transform; }
+
+/* Cards */
+.testimonial-card { background:#f3f4f4; padding:2.25rem 2rem; border-radius:2px; box-shadow:0 0 0 1px rgba(0,0,0,0.02) inset; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box; }
+.testimonial-card blockquote { margin:0; font-family:"Playfair Display", serif; font-style:italic; font-size:1.05rem; line-height:1.85; color:#222; position:relative; padding-left:1.2rem; }
+.testimonial-card blockquote::before { content:"“"; font-family:"Playfair Display", serif; font-size:2.8rem; color: rgba(0,0,0,0.16); position:absolute; left:-0.45rem; top:-0.2rem; }
+.testimonial-card .author { margin-top:1rem; font-weight:700; color:#111; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+
+/* Responsive: 1 card per view on narrow screens */
+@media (max-width: 860px) {
+  .carousel-btn { width:40px; height:40px; }
+  .testimonial-card { padding:1.25rem; }
+  .testimonial-card blockquote::before { font-size:2.2rem; left:-0.35rem; top:-0.05rem; }
+}
+</style>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Testimonials</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <div id="navbar-placeholder"></div>
+    <!-- Testimonials section -->
+    <main class="w3-container w3-content w3-padding-64" style="max-width:900px">
+      <h2 class="w3-wide w3-center">TESTIMONIALS</h2>
+      <!-- Testimonials carousel (static cards only) -->
+    <section class="testimonials-section">
+      <div class="container">
+        <div class="testimonials-carousel" aria-roledescription="carousel">
+          <button class="carousel-btn prev" aria-label="Previous testimonials" disabled>&larr;</button>
+
+          <!-- viewport: height animated to match visible cards -->
+          <div class="viewport" id="testimonialsViewport" tabindex="0" aria-label="Testimonials viewport">
+            <div class="track" id="testimonialsTrack">
+
+              <article class="testimonial-card" role="article" aria-label="Testimonial 1">
+                <blockquote>
+                I was finally able to convince my wife to fish with me during our yearly trip down to the Vero Beach area. I got Tyler's name through a friend of a friend, and I'm very glad he was our guide! Throughout the whole day (8 hours) Tyler was very professional and confident while at the same time making us feel like we had been friends with him for years! Switching between fly fishing and conventional tackle, we were able to consistently hook (and land) fish. Having some experience fishing myself and my wife having none, Tyler was did a terrific job at making sure both of our needs were more than met. I would highly recommend Tyler for any person or group of people looking to not just fish, but enjoy a day out on the beautiful water in the Vero area.            
+                </blockquote>
+                <div class="author">— Corey, Ohio</div>
+              </article>
+
+              <article class="testimonial-card" role="article" aria-label="Testimonial 2">
+                <blockquote>
+                  My 12-year-old and I recently had the pleasure of fishing with Captain Treece. His passion and positivity are contagious. The day started out a little rough with rain and a bit of wind. El Capitan seemed to have a plan from the get go. He found us protection from the elements and even fish before I could get to inquiring about a rain check. Eventually the rain let up, the sun came out and we caught more than our fair share. The diversity of this fishery was mind boggling. Tyler was extremely patient with my son and before long my son had his first fish on the fly. What an unforgettable experience that was! We plan to visit Captain Treece in Idaho, and we will certainly see him next year in Vero Beach. If you want a fun, patient, personable guy to spend the day fishing with, Captain Treece is your man!            
+                </blockquote>
+                <div class="author">— Jon, Idaho</div>
+              </article>
+            </div>
+          </div>
+          <button class="carousel-btn next" aria-label="Next testimonials">&rarr;</button>
+        </div>
+      </div>
+    </section>
+    </main>
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+
+    <script src="/dist/main.js"></script>
+
+    <script>
+      fetch("/components/navbar.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
+        })
+        .catch(err => console.error("Error loading navbar:", err));
+    </script>
+
+    <script>
+      fetch("/components/footer.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("footer-placeholder").innerHTML = data;
+        })
+        .catch(err => console.error("Error loading footer:", err));
+    </script>
+
+    <!-- Script: touch/swipe + auto-height + buttons -->
+    <script>
+    (function () {
+      const viewport = document.getElementById('testimonialsViewport');
+      const track = document.getElementById('testimonialsTrack');
+      const prevBtn = document.querySelector('.carousel-btn.prev');
+      const nextBtn = document.querySelector('.carousel-btn.next');
+
+      let itemsPerView = 2;
+      let pageIndex = 0;
+      let totalPages = 1;
+      let viewportWidth = 0;
+
+      function getGapPx() {
+        const style = window.getComputedStyle(track);
+        const gap = style.getPropertyValue('gap') || '24px';
+        return parseFloat(gap) || 24;
+      }
+
+      function cards() {
+        return Array.from(track.children).filter(c => c.classList.contains('testimonial-card'));
+      }
+
+      function recalcLayout() {
+        const elems = cards();
+        itemsPerView = window.innerWidth <= 860 ? 1 : 2;
+        viewportWidth = viewport.clientWidth;
+        const gapPx = getGapPx();
+        const cardWidth = (viewportWidth - (gapPx * (itemsPerView - 1))) / itemsPerView;
+
+        elems.forEach(el => {
+          el.style.flex = `0 0 ${cardWidth}px`;
+          el.style.maxWidth = `${cardWidth}px`;
+        });
+
+        totalPages = Math.ceil(elems.length / itemsPerView);
+        if (pageIndex > totalPages - 1) pageIndex = totalPages - 1;
+
+        updateTransform(true); // true = instant reposition
+        animateViewportHeight();
+        updateButtons();
+      }
+
+      function updateTransform(instant = false) {
+        track.style.transition = instant ? 'none' : 'transform 0.5s ease';
+        const offset = pageIndex * viewportWidth;
+        track.style.transform = `translateX(${-offset}px)`;
+      }
+
+      function animateViewportHeight() {
+        const elems = cards();
+        const firstIndex = pageIndex * itemsPerView;
+        const visible = elems.slice(firstIndex, firstIndex + itemsPerView);
+        if (visible.length === 0) return;
+
+        // Measure full natural height of the visible cards
+        const cloneWrap = document.createElement('div');
+        cloneWrap.style.cssText = `
+          position: absolute;
+          visibility: hidden;
+          left: -9999px;
+          top: 0;
+          display: flex;
+          gap: ${getGapPx()}px;
+        `;
+        visible.forEach(el => cloneWrap.appendChild(el.cloneNode(true)));
+        document.body.appendChild(cloneWrap);
+        const maxH = Math.max(...Array.from(cloneWrap.children).map(c => c.offsetHeight));
+        document.body.removeChild(cloneWrap);
+
+        viewport.style.transition = 'height 0.4s ease';
+        viewport.style.height = maxH + 'px';
+      }
+
+      function updateButtons() {
+        prevBtn.disabled = pageIndex <= 0;
+        nextBtn.disabled = pageIndex >= totalPages - 1;
+      }
+
+      prevBtn.onclick = () => {
+        if (pageIndex > 0) {
+          pageIndex--;
+          updateTransform();
+          animateViewportHeight();
+          updateButtons();
+        }
+      };
+
+      nextBtn.onclick = () => {
+        if (pageIndex < totalPages - 1) {
+          pageIndex++;
+          updateTransform();
+          animateViewportHeight();
+          updateButtons();
+        }
+      };
+
+      // Touch/swipe support
+      let startX = 0, isDragging = false, currentTranslate = 0;
+      function pointerDown(e) {
+        isDragging = true;
+        startX = (e.touches ? e.touches[0].clientX : e.clientX);
+        currentTranslate = new WebKitCSSMatrix(window.getComputedStyle(track).transform).m41;
+        track.style.transition = 'none';
+      }
+      function pointerMove(e) {
+        if (!isDragging) return;
+        const x = (e.touches ? e.touches[0].clientX : e.clientX);
+        const dx = x - startX;
+        track.style.transform = `translateX(${currentTranslate + dx}px)`;
+        if (e.cancelable) e.preventDefault();
+      }
+      function pointerUp(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.transition = '';
+        const x = (e.changedTouches ? e.changedTouches[0].clientX : e.clientX);
+        const dx = x - startX;
+        const threshold = Math.max(30, viewportWidth * 0.08);
+        if (dx < -threshold && pageIndex < totalPages - 1) pageIndex++;
+        else if (dx > threshold && pageIndex > 0) pageIndex--;
+        updateTransform();
+        animateViewportHeight();
+        updateButtons();
+      }
+
+      viewport.addEventListener('pointerdown', pointerDown);
+      viewport.addEventListener('pointermove', pointerMove);
+      window.addEventListener('pointerup', pointerUp);
+      window.addEventListener('pointercancel', pointerUp);
+
+      window.addEventListener('resize', () => setTimeout(recalcLayout, 120));
+      document.addEventListener('DOMContentLoaded', recalcLayout);
+    })();
+    </script>
+
+  </body>
+</html>
+
+
+

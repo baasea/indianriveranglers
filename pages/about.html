@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>About</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+
+  <div id="navbar-placeholder"></div>
+
+  <main class="w3-container w3-content w3-padding-64" style="max-width:900px">
+    <h2 class="w3-wide w3-center">ABOUT</h2>
+    <p class="w3-justify">
+      Captain Tyler has been a fishing fanatic since he was old enough to hold a rod. At age 8 his father 
+      and grandfather introduced him to the fly rod. The rest is history. Throughout college in Ohio, 
+      Captain Tyler guided for anything with fins. He has since graduated to being a full time professional 
+      fishing guide, spending over 300 days a year on the water.
+      <br><br>
+      From October to May, Captain Tyler can be found putting clients on Tarpon, Snook, Redfish and Speckled 
+      Trout in the Indian River Lagoon and surrounding waters. The Captain's summer months are spent in 
+      Yellowstone country, guiding the most famous trout streams in the mountain west; the Yellowstone, the 
+      Henry's Fork, the Madison, and the South Fork of the Snake.
+  ​   <br><br>
+      An expert fly tyer and fly cast instructor, Captain Tyler is a consummate professional in the fly fishing 
+      world, but he also knows what it takes to catch fish. If light artificial lures, or even live bait is needed 
+      to get the job done, Captain Tyler will do whatever necessary to ensure you have a great day on the water.
+      <br><br>
+      Call Tyler today to see what's biting at 614-800-0339 or 614-562-1598 or email him at tstreece@gmail.com.
+      <br><br>
+      ​To book Captain Tyler for trout fishing call <a href="https://bigskyanglers.com/" target="_blank">Big Sky Anglers in West Yellowstone</a>
+    </p>
+    <div class="w3-row-padding w3-padding-32">
+      <div class="w3-third">
+        <img src="w3images/tyler/tarpon-tyler.jpeg" alt="photo" class="w3-round" style="width:100%">
+        <br>
+        <p><b>Rates:</b></p>
+        <p>
+          <i><b>1/2 day, 4hrs, $600</b></i><br>
+          <i><b>3/4 day, 6hrs, $700</b></i><br>
+          <i><b>Full day, 8hrs, $800</b></i><br>
+          <i><b>Night trips, 4hrs, $600</b></i><br>
+          <i>(Usually start at 6:30pm)</i>
+        </p>
+      </div>
+      <div class="w3-twothird">
+        <h3>Charter Details</h3>
+        <p class="w3-justify">
+          <i><b>Captain Tyler is a fully certified and insured USCG captain.</b></i>
+          <br><br>
+          Included in the charter is your fishing license, all fly rods and flies, 
+          light tackle and live bait as needed, and a cooler full of ice and bottled water.
+          <br><br>
+          Anglers should bring a hat, polarized sunglasses, sunscreen and any food or drink 
+          you want. Alcohol is allowed but please consume responsibly.
+          <br><br>
+          Last but not least, no black soled shoes please!
+        </p>
+      </div>
+    </div>
+  </main>
+  <div id="footer-placeholder"></div>
+
+  <!-- Scripts -->
+
+  <script src="/dist/main.js"></script>
+
+  <script>
+    fetch("/components/navbar.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("navbar-placeholder").innerHTML = data;
+      })
+      .catch(err => console.error("Error loading navbar:", err));
+  </script>
+
+  <script>
+    fetch("/components/footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer-placeholder").innerHTML = data;
+      })
+      .catch(err => console.error("Error loading footer:", err));
+  </script>
+
+  </body>
+</html>

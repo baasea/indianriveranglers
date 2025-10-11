@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>W3.CSS Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+
+    <!-- Placeholder for Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Page content -->
+    <div class="w3-content main-wrapper">
+
+      <!-- Automatic Slideshow Images -->
+      <div class="main-mySlides w3-display-container w3-center">
+        <img class="slideshow-logo" src="w3images/logos/white-pole-logo.png" alt="Logo">
+        <img src="w3images/tyler/tyler-cuda.png" class="slide-image">
+      </div>
+      <div class="main-mySlides w3-display-container w3-center">
+        <img class="slideshow-logo" src="w3images/logos/white-pole-logo.png" alt="Logo">
+        <img src="w3images/fishon/p39_orig.png" class="slide-image">
+      </div>
+      <div class="main-mySlides w3-display-container w3-center">
+        <img class="slideshow-logo" src="w3images/logos/white-pole-logo.png" alt="Logo">
+        <img src="w3images/fishon/p40_orig.png" class="slide-image">
+      </div>
+
+      <br><br>
+      <!-- Indian River Anglers Main Section -->
+      <div class="w3-container w3-content w3-center w3-padding-64 black-border-box">
+        <h2><b><i>​Experience the very best fly and light tackle fishing on the Indian River Lagoon.</i></b></h2>
+        <h6 class="w3-justify w3-center">
+          Capt. Tyler Treece<br>
+          614-800-0339<br>
+          tstreece@gmail.com<br>
+        </h6>
+      </div>
+
+      <!-- The Contact Section -->
+      <div class="w3-container w3-content w3-padding-64" id="contact">
+        <h2 class="w3-wide w3-center">CONTACT TO BOOK</h2>
+        <div class="w3-row w3-padding-32">
+          <div class="w3-col m6 w3-large w3-margin-bottom">
+            <i class="fa fa-map-marker main-contact-info"></i>Vero Beach, FL<br>
+            <i class="fa fa-phone main-contact-info"></i>614-800-0339<br>
+            <i class="fa fa-phone main-contact-info"></i>614-562-1598<br>
+            <i class="fa fa-envelope main-contact-info"></i>tstreece@gmail.com<br>
+          </div>
+          <div class="w3-col m6">
+            <!-- Formspree contact form -->
+            <form id="contactForm" action="https://formspree.io/f/mrbyaywl" method="POST">
+              <div class="w3-row-padding main-contact-form-wrapper">
+                <div class="w3-half">
+                  <input class="w3-input w3-border" type="text" placeholder="Name" required name="name">
+                </div>
+                <div class="w3-half">
+                  <input class="w3-input w3-border" type="email" placeholder="Email" required name="_replyto">
+                </div>
+              </div>
+              <textarea class="w3-input w3-border main-contact-form-textarea" maxlength="1000" placeholder="Message" required name="message"></textarea>
+              <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
+            </form>
+          </div>
+        </div>
+        <div class="w3-wide w3-center">
+          <!-- Responsive iframe embed -->
+          <div class="main-location-map-wrapper">
+            <div>
+              <iframe
+                src="https://www.google.com/maps?q=Vero+Beach+FL&output=embed"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+          </div>
+          <br><br>
+          <p>
+            Vero Beach is centrally located and is easily reached via I-95 by car and via major 
+            airports in Orlando, Tampa and West Palm Beach by air.
+            <br><br>
+            Accommodations are plentiful and you can choose from major hotels and resorts, 
+            condominium and private home rentals, and online booking services such as Airbnb.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+
+    <script src="/dist/main.js"></script>
+
+    <script>
+      fetch("/components/navbar.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
+        })
+        .catch(err => console.error("Error loading navbar:", err));
+    </script>
+
+    <script>
+      fetch("/components/footer.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("footer-placeholder").innerHTML = data;
+        })
+        .catch(err => console.error("Error loading footer:", err));
+    </script>
+
+    <script>
+      // Slideshow logic
+      let slideIndex = 0;
+      showSlides();
+
+      function showSlides() {
+        let slides = document.getElementsByClassName("main-mySlides");
+        for (let i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        slides[slideIndex-1].style.display = "block";
+        setTimeout(showSlides, 4000); // Change image every 4 seconds
+      }
+    </script>
+
+    <script>
+      // Email Submission
+      document.getElementById('contactForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+
+        // send to Formspree endpoint
+        const resp = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (resp.ok) {
+          form.reset();
+          alert('Message Sent!');
+        } else {
+          alert('Sorry — there was a problem sending your message. Please try again later.');
+        }
+      });
+
+      function alignSlideshow() {
+        const navbar = document.querySelector('.w3-top');
+        const slideshow = document.querySelector('.main-mySlides'); 
+        if (navbar && slideshow) {
+          slideshow.style.marginTop = navbar.offsetHeight + 'px';
+        }
+      }
+      window.addEventListener('load', alignSlideshow);
+      window.addEventListener('resize', alignSlideshow);
+    </script>
+  </body>
+</html>

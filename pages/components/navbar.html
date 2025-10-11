@@ -1,0 +1,35 @@
+<!-- components/navbar.html -->
+
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <!-- Mobile menu icon -->
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right"
+       href="javascript:void(0)" onclick="toggleNav()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+
+    <!-- Hide HOME on mobile -->
+    <a href="/index.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">HOME</a>
+
+    <a href="/about.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">ABOUT</a>
+    <a href="/photos.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">PHOTOS</a>
+    <a href="/indian-river.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">INDIAN RIVER AREA</a>
+    <a href="/testimonials.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">TESTIMONIALS</a>
+    <a href="/contact.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONTACT</a>
+
+    <!-- Right-aligned logo (desktop), centered on mobile -->
+    <a href="/index.html" class="w3-bar-item w3-right logo-link" aria-label="Home">
+      <img src="w3images/logos/white-pole-logo.png" class="main-nav-logo" alt="Logo">
+    </a>
+  </div>
+</div>
+
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  <a href="/index.html" class="w3-bar-item w3-button w3-padding-large" onclick="toggleNav()">HOME</a>
+  <a href="/about.html" class="w3-bar-item w3-button w3-padding-large" onclick="toggleNav()">ABOUT</a>
+  <a href="/photos.html" class="w3-bar-item w3-button w3-padding-large" onclick="toggleNav()">PHOTOS</a>
+  <a href="/indian-river.html" class="w3-bar-item w3-button w3-padding-large" onclick="toggleNav()">INDIAN RIVER AREA</a>
+  <a href="/contact.html" class="w3-bar-item w3-button w3-padding-large" onclick="toggleNav()">CONTACT</a>
+</div>

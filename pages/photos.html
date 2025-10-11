@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Photos</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    
+  </head>
+  <body>
+    <div id="navbar-placeholder"></div>
+
+    <!-- Carousel Section -->
+    <main class="w3-container w3-content w3-padding-64" style="max-width:700px">
+      <h2 class="w3-wide w3-center">PHOTOS</h2>
+      <div id="photo-carousel" class="w3-center" style="max-width:600px;margin:0 auto;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:24px;height:420px;">
+          <button id="carousel-prev" class="carousel-btn" style="align-self:center;">&#10094;</button>
+          <div id="carousel-slide" style="flex:1 1 auto;display:inline-block;width:100%;max-width:600px;vertical-align:middle;align-self:center;"></div>
+          <button id="carousel-next" class="carousel-btn" style="align-self:center;">&#10095;</button>
+        </div>
+      </div>
+      <br><br>
+      <p class="w3-center">
+        For even more photos, check out Captain Tyler's <a href="https://www.instagram.com/capt_treece/" target="_blank" rel="noopener">Instagram</a>.
+      </p>
+    </main>
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+
+    <script src="/dist/main.js"></script>
+
+    <script>
+      fetch("/components/navbar.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
+        })
+        .catch(err => console.error("Error loading navbar:", err));
+    </script>
+
+    <script>
+      fetch("/components/footer.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("footer-placeholder").innerHTML = data;
+        })
+        .catch(err => console.error("Error loading footer:", err));
+    </script>
+
+    <script>
+      // Carousel logic 
+      let photoList = [];
+      let photoIndex = 0;
+
+      async function loadPhotos() {
+        try {
+          const res = await fetch('/images.json');
+          const data = await res.json();
+          photoList = data.photos;
+          photoIndex = 0;
+          showPhoto(photoIndex);
+        } catch (err) {
+          document.getElementById('carousel-slide').innerHTML = '<p>Error loading images.</p>';
+        }
+      }
+
+      function showPhoto(idx) {
+        if (!photoList.length) return;
+        // Clamp index
+        if (idx < 0) idx = photoList.length - 1;
+        if (idx >= photoList.length) idx = 0;
+        photoIndex = idx;
+        document.getElementById('carousel-slide').innerHTML = `
+          <img src="${photoList[photoIndex]}" style="width:100%;max-height:400px;object-fit:contain;box-shadow:0 2px 8px rgba(0,0,0,0.12);border-radius:8px;" alt="Photo">
+          <div style="margin-top:8px;color:#555;">${photoIndex+1} / ${photoList.length}</div>
+        `;
+      }
+
+      document.getElementById('carousel-prev').onclick = () => showPhoto(photoIndex - 1);
+      document.getElementById('carousel-next').onclick = () => showPhoto(photoIndex + 1);
+
+      document.addEventListener('DOMContentLoaded', loadPhotos);
+    </script>
+
+  </body>
+</html>
