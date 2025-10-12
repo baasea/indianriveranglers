@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "start": "npx http-server ./pages -p 3000"
+    "start": "npx http-server -p 3000"
   },
   "devDependencies": {
     "http-server": "^14.1.1",
