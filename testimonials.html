@@ -11,8 +11,8 @@
 .carousel-btn { background:transparent; border:1px solid rgba(0,0,0,0.08); width:44px; height:44px; border-radius:6px; font-size:1.25rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .carousel-btn:disabled { opacity:0.35; cursor:default; }
 
-/* Viewport: animate height smoothly; overflow hidden */
-.viewport { overflow:hidden; flex:1 1 auto; outline:none; transition: height 300ms ease; }
+/* Viewport: animate height smoothly */
+.viewport { flex:1 1 auto; outline:none; transition: height 300ms ease; }
 
 /* Track: horizontal strip we translate left/right */
 .track { display:flex; gap:1.5rem; transition: transform 320ms ease; will-change: transform; }
@@ -28,6 +28,33 @@
   .carousel-btn { width:40px; height:40px; }
   .testimonial-card { padding:1.25rem; }
   .testimonial-card blockquote::before { font-size:2.2rem; left:-0.35rem; top:-0.05rem; }
+}
+
+@media only screen and (max-width: 600px) {
+  .testimonials-carousel {
+    overflow-x: unset;
+    overflow-y: unset;
+  }
+  .viewport {
+    overflow: visible !important;
+    height: auto !important;
+    padding-bottom: 0 !important;
+  }
+  .testimonials-carousel .track {
+    display: block !important;
+    gap: 0 !important;
+    width: 100% !important;
+    transform: none !important;
+  }
+  .testimonial-card {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+  }
+  .carousel-btn {
+    display: none !important;
+  }
 }
 </style>
 
@@ -126,9 +153,26 @@
 
       function recalcLayout() {
         const elems = cards();
-        itemsPerView = window.innerWidth <= 860 ? 1 : 2;
+
+        // Detect mobile
+        if (window.innerWidth <= 600) {
+          elems.forEach(el => {
+            el.style.flex = '';
+            el.style.maxWidth = '';
+          });
+          return; // Skip carousel layout on mobile
+        }
+
+        itemsPerView = 2;
+
         viewportWidth = viewport.clientWidth;
-        const gapPx = getGapPx();
+
+        // get gap but reduce it on tiny screens
+        let gapPx = getGapPx();
+        if (viewportWidth <= 420) gapPx = Math.min(gapPx, 8); // smaller gap on small phones
+        if (viewportWidth <= 320) gapPx = Math.min(gapPx, 6);
+
+        // compute card width so exactly `itemsPerView` cards fit the viewport
         const cardWidth = (viewportWidth - (gapPx * (itemsPerView - 1))) / itemsPerView;
 
         elems.forEach(el => {
@@ -143,6 +187,7 @@
         animateViewportHeight();
         updateButtons();
       }
+
 
       function updateTransform(instant = false) {
         track.style.transition = instant ? 'none' : 'transform 0.5s ease';

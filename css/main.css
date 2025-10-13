@@ -178,3 +178,22 @@ body {
 
 }
 
+/* Responsive: show two cards on mobile; tighten spacing for small screens */
+@media (max-width: 860px) {
+  .carousel-btn { width:36px; height:36px; font-size:1rem; }
+  .testimonial-card { padding:0.9rem; }
+  .testimonial-card blockquote { font-size:0.98rem; line-height:1.6; }
+  .testimonial-card blockquote::before { font-size:1.9rem; left:-0.25rem; top:0; }
+
+  /* reduce gap on very small viewports so two cards can fit */
+  .testimonials-carousel .track { gap:0.75rem; }
+  .viewport { padding-bottom: 0.4rem; } /* tiny breathing room */
+}
+
+/* Extra-tight tweak for very narrow phones */
+@media (max-width: 420px) {
+  .testimonial-card { padding:0.65rem; font-size:0.95rem; }
+  .testimonials-carousel .track { gap:0.5rem; }
+}
+
+
